@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bobo.movie.dao.MovieMapper" >
+
+ <resultMap type="movie" id="movieResultMap">
+ 
+ </resultMap>
+
+
+ <select id="selects" resultMap="movieResultMap">
+ 
+  select * from t_movie
+  
+  <where>
+    <if test="null!=name and ''!=name">
+     name like "%"#{name}"%"
+    </if>
+  
+    <if test="null!=actor and ''!=actor">
+    and   actor like "%"#{actor}"%"
+    </if>
+  
+    
+   <if test="null!=year and 0!=year">
+     and year =#{year}
+    </if>
+    
+    <!-- 上映时间区间 -->
+    <if test="null!=uptimeStart and ''!=uptimeStart">
+     and    uptime >= #{uptimeStart}
+    
+    </if>
+   <if test="null!=uptimeEnd and ''!=uptimeEnd">
+      and  uptime  &lt;= #{uptimeEnd}
+    
+    </if>
+  
+  
+     <!-- 价格区间 -->
+      
+    <if test="null!=priceStart and 0.0!=priceStart">
+     and    price >= #{priceStart}
+    
+    </if>
+   <if test="null!=priceEnd and 0.0!=priceEnd">
+     and    price &lt;= #{priceEnd}
+    
+    </if>
+  
+  
+     <!-- 时长区间 -->
+      
+    <if test="null!=longtimeStart and 0!=longtimeStart">
+     and    longtime >= #{longtimeStart}
+    
+    </if>
+    <if test="null!=longtimeEnd and 0!=longtimeEnd">
+     and    longtime &lt;= #{longtimeEnd}
+    
+    </if>
+  
+  
+  </where>
+
+  
+  <if test="null!=orderColumn and orderColumn!=''">
+  order by ${orderColumn} ${orderMethod}
+  </if>
+ 
+ </select>
+
+
+
+
+</mapper>
